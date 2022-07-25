@@ -172,8 +172,8 @@ class ImageStyleDownloadController extends FileDownloadController {
       // original file, resulting in filenames like image.png.jpeg. So to find
       // the actual source image, we remove the extension and check if that
       // image exists.
-      $path_info = pathinfo(StreamWrapperManager::getTarget($image_uri));
-      $converted_image_uri = sprintf('%s://%s%s%s', $this->streamWrapperManager->getScheme($derivative_uri), $path_info['dirname'], DIRECTORY_SEPARATOR, $path_info['filename']);
+      $path_info = pathinfo($this->streamWrapperManager->getTarget($image_uri));
+      $converted_image_uri = sprintf('%s://%s%s%s', $this->streamWrapperManager->getScheme($image_uri), $path_info['dirname'], DIRECTORY_SEPARATOR, $path_info['filename']);
       if (!$this->sourceImageExists($converted_image_uri, $token_is_valid)) {
         $this->logger->notice('Source image at %source_image_path not found while trying to generate derivative image at %derivative_path.', ['%source_image_path' => $image_uri, '%derivative_path' => $derivative_uri]);
         return new Response($this->t('Error generating image, missing source file.'), 404);
